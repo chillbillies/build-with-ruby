@@ -1,0 +1,44 @@
+version: '3'
+services:
+  
+  database:
+    hostname: postgres
+    container_name: ${APP_NAME}_database
+    image: postgres:15.0-alpine
+    volumes:
+      - ./config/postgres:/docker-entrypoint-initdb.d
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - ${HOST_DB_PORT}:5432
+    environment:
+      POSTGRES_PASSWORD: ${DB_ROOT_PASSWORD}
+
+  cache:
+    hostname: redis
+    container_name: ${APP_NAME}_cache
+    image: redis:7.0-alpine
+    restart: always
+    volumes:
+      - redis_data:/var/lib/redis/data
+    ports:
+      - ${HOST_CACHE_PORT}:6379
+      
+  application:
+    build: .
+    hostname: ruby 
+    container_name: ${APP_NAME}
+    links:
+      - database:postgres
+    volumes:
+      - ../:/var/www/app
+      - bundle_data/:/usr/local/bundle
+    ports:
+      - ${HOST_APP_PORT}:8080
+      - ${HOST_MAIL_PORT}:1080
+    depends_on:
+      - database
+
+volumes:
+  postgres_data:
+  redis_data:
+  bundle_data:
