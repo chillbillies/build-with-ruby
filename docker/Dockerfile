@@ -1,4 +1,4 @@
-FROM ruby:3.1.1-alpine
+FROM ruby:2.7.4-alpine
 
 # ------------ Root Related Stuff ------------
 # User config and creation
@@ -10,7 +10,7 @@ WORKDIR /home/${username}
 
 # Install dependencies and dev QoL
 RUN apk update && \
-    apk add  \
+    apk add \
     neovim \
     git \
     curl \
@@ -33,9 +33,9 @@ USER $username
 RUN sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
 # Serve app on:
-EXPOSE 3000
+EXPOSE 80
 
 # Email server interface on:
 EXPOSE 1080
 
-CMD ["/bin/zsh"]
+#CMD ["/bin/zsh"]

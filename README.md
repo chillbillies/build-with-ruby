@@ -5,7 +5,7 @@ Development environment setup is hands-down the worst part of developing: Hours 
 This repo contains all the files necessary for setting up an entire development environment for building web applications with Ruby. The goal is to take the arduous process of environment setup and boil it down to a simple, reproducible process by leveraging [Docker](https://www.docker.com/).
 
 The following tools have already been setup and are ready to rock:
-- Ruby 3.1 with `bundler`, NodeJS and `yarn` 3.2.4
+- Ruby 2.7.4 with `bundler`, NodeJS and `yarn` 3.2.4
 - Two PostgreSQL v15 databases for development and testing
 - Redis
 - git, curl and neovim
