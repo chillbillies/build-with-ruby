@@ -26,8 +26,9 @@ services:
   application:
     build: .
     hostname: ruby
-    image: chill-dev-local:1.0
+    image: chill-dev-local:2.7.4
     container_name: ${APP_NAME}
+    tty: true
     links:
       - database:postgres
     volumes:

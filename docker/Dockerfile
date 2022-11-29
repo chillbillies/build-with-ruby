@@ -1,36 +1,26 @@
 FROM ruby:2.7.4-alpine
 
-# ------------ Root Related Stuff ------------
 # User config and creation
 ARG username=chill
 RUN adduser -u 808 -D $username && \
-    chown -R ${username}: /home/${username} && \
-	chown -R ${username}: /usr/local/bundle
-WORKDIR /home/${username}
+    chown -R ${username}:${username} /home/${username} && \
+	chown -R ${username}:${username} /usr/local/bundle
 
-# Install dependencies and dev QoL
+# Install dependencies
 RUN apk update && \
     apk add \
-    neovim \
     git \
     curl \
-    zsh \
-    build-base
+    build-base \
+    nodejs \
+    npm
 
+# Yarn for frontend package management
+RUN npm install --global yarn
 
-# NodeJS and Yarn 3 for frontend
-RUN apk add --update npm && \
-    npm install --global yarn && \
-    corepack enable && \
-    corepack prepare yarn@3.2.4 --activate
-
-# Gems and Bundler
+# Bundler for backend package management
 RUN gem update --system && \
     gem install bundler
-
-# ------------ User Related Stuff -----------
-USER $username
-RUN sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
 # Serve app on:
 EXPOSE 80
@@ -38,4 +28,5 @@ EXPOSE 80
 # Email server interface on:
 EXPOSE 1080
 
-#CMD ["/bin/zsh"]
+USER $username
+WORKDIR /home/${username}
